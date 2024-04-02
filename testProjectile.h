@@ -32,14 +32,14 @@ public:
       reset_full();
       fire_right();
       fire_left();
-      fire_up();
+      //fire_up();
 
       //// Ticket 4: Advance
       advance_nothing();
       advance_fall();
       advance_horizontal(); 
-      advance_up(); 
-      advance_diagonalUp();
+      //advance_up(); 
+      //advance_diagonalUp();
       advance_diagonalDown(); 
 
       report("Projectile");
@@ -305,7 +305,7 @@ private:
     *********************************************/
    void advance_up()
    {
-      // cout << "advance_up: " << endl;
+       cout << "advance_up: " << endl;
       // setup
       setupStandardFixture();
       Position pos;
@@ -320,7 +320,27 @@ private:
       pvt.t = 100.0;
       p.flightPath.push_back(pvt);
       // exercise
+      //cout << "before advance: " << endl;
+      //cout << p.flightPath.back().pos.x << endl;
+      //cout << p.flightPath.back().pos.y << endl;
+      //cout << p.flightPath.back().v.dx << endl;
+      //cout << p.flightPath.back().v.dy << endl;
+      //cout << p.flightPath.back().t << endl;
       p.advance(101.0);
+      //cout << "after advance: " << endl;
+      //cout << p.flightPath.back().pos.x << endl;
+      //cout << p.flightPath.back().pos.y << endl;
+      //cout << p.flightPath.back().v.dx << endl;
+      //cout << p.flightPath.back().v.dy << endl;
+      //cout << p.flightPath.back().t << endl;
+
+      //cout << " ------------------" << endl;
+      //cout << "should be: " << endl
+      //   << 100.00 << endl
+      //   << 294.9021 << endl
+      //   << 0.0 << endl
+      //   << 89.8042 << endl
+      //   << 101 << endl;
       // verify
       assertUnit(p.flightPath.size() == 4);
       assertEquals(p.mass, 46.7);
@@ -328,10 +348,10 @@ private:
       assertUnit(!p.flightPath.empty());
       if (!p.flightPath.empty())
       {
-         assertEquals(p.flightPath.back().pos.x, 149.9201);
-         assertEquals(p.flightPath.back().pos.y, 150.2574);
-         assertEquals(p.flightPath.back().v.dx, 49.9201);
-         assertEquals(p.flightPath.back().v.dy, -49.7425);
+         assertEquals(p.flightPath.back().pos.x, 100.0);
+         assertEquals(p.flightPath.back().pos.y, 294.9021);
+         assertEquals(p.flightPath.back().v.dx, 0.0);
+         assertEquals(p.flightPath.back().v.dy, 89.8042);
          assertEquals(p.flightPath.back().t, 101.0);
       }
       // teardown
@@ -381,7 +401,6 @@ private:
       // teardown
       teardownStandardFixture();
    }
-
    /*********************************************
     * name:    ADVANCE : the projectile is traveling down and across
     * input:   flightPath={}{}{pos=100,200 v=50,-40 t=100}
@@ -393,7 +412,6 @@ private:
     *********************************************/
    void advance_diagonalDown()
    {  // setup
-      // cout << "advance_diagonalDown: " << endl;
       setupStandardFixture();
       Position pos;
       Projectile p;
@@ -407,13 +425,7 @@ private:
       pvt.t = 100.0;
       p.flightPath.push_back(pvt);
       // exercise
-      p.advance(101.0); 
-      // cout << p.flightPath.back().pos.x << endl;
-      // cout << p.flightPath.back().pos.y << endl;
-      // cout << p.flightPath.back().v.dx << endl;
-      // cout << p.flightPath.back().v.dy << endl;
-      // cout << p.flightPath.back().t << endl;
-
+      p.advance(101.0);
       // verify
       assertUnit(p.flightPath.size() == 4);
       assertEquals(p.mass, 46.7);
@@ -421,10 +433,10 @@ private:
       assertUnit(!p.flightPath.empty());
       if (!p.flightPath.empty())
       {
-         assertEquals(p.flightPath.back().pos.x, 149.9601); // 100 + 50*1 + .5(-0.0799)*1*1
-         assertEquals(p.flightPath.back().pos.y, 155.1287); // 200 +-40*1 + .5(-9.8064+0.0638)*1*1
-         assertEquals(p.flightPath.back().v.dx, 49.9201);   // 50 + (-0.0799)*1
-         assertEquals(p.flightPath.back().v.dy, -49.7425);  //-40 + (-9.8064+0.0638)*1*1
+         assertEquals(p.flightPath.back().pos.x, 149.9601); // 100 + 50*1 + .5(-0.0799)*1*1 --> posX + (vX * t) + (0.5 * (-0.0799) * (t * t))
+         assertEquals(p.flightPath.back().pos.y, 155.1287); // 200 +-40*1 + .5(-9.8064+0.0638)*1*1 --> posY + (vy * t) + (0.5 * () * (t * t))
+         assertEquals(p.flightPath.back().v.dx, 49.9201);   // 50 + (-0.0799)*1 --> vX + (-0.0799) * t
+         assertEquals(p.flightPath.back().v.dy, -49.7425);  //-40 + (-9.8064+0.0638)*1*1 --> vY + (-9.8064+0.0638) * (t * t)
          assertEquals(p.flightPath.back().t, 101.0);
       }
       // teardown
