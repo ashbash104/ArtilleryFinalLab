@@ -54,13 +54,26 @@ public:
    void fire(const Position& initialPosition, double simulatorTime,
               double angle, double muzzleVelocity) {
         // Calculate initial velocity components based on angle and muzzle velocity
+        double vx = muzzleVelocity;
+        // double vx = 0.0;
+        // double vy = 0.0;
 
-        // double vx = muzzleVelocity;
-        double vx = muzzleVelocity * cos(angle);
-        double vy = muzzleVelocity * sin(angle);
-
+        // // double vx = muzzleVelocity;
+        // if (angle == 90.0 || angle == -90)
+        // {
+        //   vx = muzzleVelocity; /** cos(angle);*/
+        // }
+        // if (angle == 0.0 || angle == 180)
+        // {
+        //   vy = muzzleVelocity * sin(angle); 
+        // } 
+        // else
+        // {
+        //   vx = muzzleVelocity;
+        // }
+        // double vdx = muzzleVelocity * sin(angle); 
+        // double vdy = muzzleVelocity * cos(angle); 
       
-
         // find position x,y
         double posX = initialPosition.getMetersX();
         double posY = initialPosition.getMetersY();
@@ -70,7 +83,7 @@ public:
         pvt.pos.setMetersX(posX);
         pvt.pos.setMetersY(posY); 
         pvt.v.setDX(vx);
-        pvt.v.setDY(vy); 
+        // pvt.v.setDY(vy); 
         pvt.t = simulatorTime;        
 
         // Add the object to the beginning of the flight path list
