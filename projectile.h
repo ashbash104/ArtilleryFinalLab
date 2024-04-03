@@ -34,9 +34,15 @@ public:
    Projectile() : mass(DEFAULT_PROJECTILE_WEIGHT),
       radius(DEFAULT_PROJECTILE_RADIUS) {}
 
+   //void fire(const Position& posHowitzer,
+   //   double simulationTime,
+   //   const Angle& elevation,
+   //   double muzzleVelocity);
+
+
    void fire(const Position& posHowitzer,
       double simulationTime,
-      const Angle& elevation,
+      double angle,
       double muzzleVelocity);
 
    void reset()

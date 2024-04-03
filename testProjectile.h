@@ -305,6 +305,34 @@ private:
     *********************************************/
    void advance_up()
    {
+      //setupStandardFixture(); 
+      //Position pos; 
+      //Projectile p; 
+      //Projectile::PositionVelocityTime pvt; 
+      //pvt.pos.x = 100.0; 
+      //pvt.pos.y = 200.0;
+      //pvt.v.dx = 0.0;
+      //pvt.v.dy = 100.0;
+      //pvt.t = 100.0; 
+      //p.flightPath.push_back(pvt);
+      //// exercise
+      //p.advance(101.0);
+      //// verify
+      //assertUnit(p.flightPath.size() == 2);
+      //assertEquals(p.mass, 46.7);
+      //assertEquals(p.radius, 0.077545);
+      //assertUnit(!p.flightPath.empty());
+      //if (!p.flightPath.empty())
+      //{
+      //   assertEquals(p.flightPath.back().pos.x, 100.0);
+      //   assertEquals(p.flightPath.back().pos.y, 294.9021);
+      //   assertEquals(p.flightPath.back().v.dx, 0.0);
+      //   assertEquals(p.flightPath.back().v.dy, 89.8042);
+      //   assertEquals(p.flightPath.back().t, 101.0);
+      //}
+
+      //teardownStandardFixture();
+
        cout << "advance_up: " << endl;
       // setup
       setupStandardFixture();

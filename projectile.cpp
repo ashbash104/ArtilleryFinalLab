@@ -19,7 +19,7 @@
  /********************************************************************
  * FIRE
  ********************************************************************/
- void Projectile::fire(const Position& posHowitzer,
+ /*void Projectile::fire(const Position& posHowitzer,
     double simulationTime,
     const Angle& elevation,
     double muzzleVelocity) 
@@ -31,7 +31,35 @@
     pvt.t = simulationTime;
     pvt.v.set(elevation, muzzleVelocity);
     flightPath.push_back(pvt);
+ }*/
+ void Projectile::fire(const Position& initialPosition, double simulatorTime,
+    double angle, double muzzleVelocity) {
+    double vx = 0.0;
+    double vy = 0.0;
+    if (angle == 90 || angle == -90)
+    {
+       vx = muzzleVelocity;
+    }
+    if (angle == 0)
+    {
+       vy = muzzleVelocity;
+    }
+    // find position x,y
+    double posX = initialPosition.getMetersX();
+    double posY = initialPosition.getMetersY();
+    // Create a PositionVelocityTime object with the provided position, initial velocity, and simulator time
+    PositionVelocityTime pvt;
+    pvt.pos.setMetersX(posX);
+    pvt.pos.setMetersY(posY);
+    pvt.v.setDX(vx);
+    // pvt.v.setDY(vy); 
+    pvt.v.setDY(vy);
+    pvt.t = simulatorTime;
+
+    // Add the object to the beginning of the flight path list
+    flightPath.push_front(pvt);
  }
+
 
 
  /*************************************************

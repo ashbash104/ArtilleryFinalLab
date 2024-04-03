@@ -48,7 +48,7 @@ public:
    virtual void addDDX(double ddx) {this->ddx += ddx; }
    virtual void addDDY(double ddy) {this->ddy += ddy; }
    virtual void addAcceleration(const Acceleration& rhs);
-   virtual void add(const Acceleration& rhs);
+   //virtual void add(const Acceleration& rhs);
 
    // methods
    double computeDDX(double total, Angle angle);
@@ -56,7 +56,7 @@ public:
    Acceleration operator+ (const Acceleration & rhs) const 
    {
       Acceleration aReturn(*this);
-      aReturn.add(rhs);
+      aReturn.addAcceleration(rhs);
       return aReturn;
    }
 
