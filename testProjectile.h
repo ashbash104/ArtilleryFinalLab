@@ -32,7 +32,7 @@ public:
       reset_full();
       fire_right();
       fire_left();
-      //fire_up();
+      fire_up();
 
       //// Ticket 4: Advance
       advance_nothing();

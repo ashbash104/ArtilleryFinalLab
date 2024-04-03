@@ -42,6 +42,7 @@ public:
          projectilePath[i].setPixelsX((double)i * 2.0);
          projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
       }
+  
    }
 
    Ground ground;                 // the ground

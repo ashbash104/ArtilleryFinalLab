@@ -141,7 +141,8 @@ int main(int argc, char** argv)
 
    // set everything into action
    ui.run(callBack, &simulator);
-   
+   //Projectile proj;
+   //proj.displayPositions();
 
    return 0;
 }

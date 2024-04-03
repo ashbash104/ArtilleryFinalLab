@@ -35,8 +35,6 @@ public:
    // create a new projectile with the default settings
    Projectile() : mass(DEFAULT_PROJECTILE_WEIGHT), radius(DEFAULT_PROJECTILE_RADIUS) {}
 
-
-
    // advance the round forward until the next unit of time
    void advance(double simulationTime); 
 
@@ -54,26 +52,16 @@ public:
    void fire(const Position& initialPosition, double simulatorTime,
               double angle, double muzzleVelocity) {
         // Calculate initial velocity components based on angle and muzzle velocity
-        double vx = muzzleVelocity;
-        // double vx = 0.0;
-        // double vy = 0.0;
-
-        // // double vx = muzzleVelocity;
-        // if (angle == 90.0 || angle == -90)
-        // {
-        //   vx = muzzleVelocity; /** cos(angle);*/
-        // }
-        // if (angle == 0.0 || angle == 180)
-        // {
-        //   vy = muzzleVelocity * sin(angle); 
-        // } 
-        // else
-        // {
-        //   vx = muzzleVelocity;
-        // }
-        // double vdx = muzzleVelocity * sin(angle); 
-        // double vdy = muzzleVelocity * cos(angle); 
-      
+      double vx = 0.0;
+      double vy = 0.0;
+      if (angle == 90 || angle == -90)
+      {
+         vx = muzzleVelocity;
+      }
+      if (angle == 0)
+      {
+         vy = muzzleVelocity;
+      }
         // find position x,y
         double posX = initialPosition.getMetersX();
         double posY = initialPosition.getMetersY();
@@ -83,13 +71,13 @@ public:
         pvt.pos.setMetersX(posX);
         pvt.pos.setMetersY(posY); 
         pvt.v.setDX(vx);
-        // pvt.v.setDY(vy); 
+        pvt.v.setDY(vy); 
         pvt.t = simulatorTime;        
 
         // Add the object to the beginning of the flight path list
         flightPath.push_front(pvt);
     }
-    double getSpeed() 
+    double getSpeed() ///////////// to get velocity from the flightPath
     {
       double dx = flightPath.front().v.getDX();
       double dy = flightPath.front().v.getDY();
@@ -97,6 +85,24 @@ public:
       return sqrt((dx * dx) + (dy * dy));
     }
 
+    list<Position> displayPositions(list<Position> positions)
+    {
+       //for (double i = 0; i <= positions.size(); i++)
+       //{
+       //   flightPath[i].setPixelsX((double)i * 2.0);
+       //   flightPath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
+       //}
+
+       //// Iterate over the list using an iterator
+       //int i = 0;
+       //for (auto it = flightPath.begin(); it != flightPath.end(); ++it) {
+       //   it->pos.setPixelsX(static_cast<double>(i) * 2.0);
+       //   ++i;
+       //   it->pos.setPixelsY(500.0 / 1.5);
+       //}
+
+    }
+   
 private:
 
    // keep track of one moment in the path of the projectile
