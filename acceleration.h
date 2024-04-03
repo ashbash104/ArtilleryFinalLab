@@ -7,7 +7,6 @@
  *    Everything we need to know about acceleration
  ************************************************************************/
 
-
 #pragma once
 
 class TestAcceleration;
@@ -15,7 +14,6 @@ class TestVelocity;
 class TestPosition;
 class TestLander;
 class Angle;
-
 
 /*********************************************
  * Acceleration
@@ -33,6 +31,10 @@ public:
    Acceleration()                       : ddx(0.0), ddy(0.0) { }
    Acceleration(double ddx, double ddy) : ddx(ddx), ddy(ddy) { }
    Acceleration(double a, Angle angle);
+   Acceleration(const Angle& a, double magnitude) : ddx(0.0), ddy(0.0)
+   {
+      set(a, magnitude);
+   }
 
    // getters
    virtual double getDDX()   const           { return ddx;             }
@@ -46,14 +48,21 @@ public:
    virtual void addDDX(double ddx) {this->ddx += ddx; }
    virtual void addDDY(double ddy) {this->ddy += ddy; }
    virtual void addAcceleration(const Acceleration& rhs);
+   virtual void add(const Acceleration& rhs);
 
    // methods
    double computeDDX(double total, Angle angle);
    double computeDDY(double total, Angle angle);
+   Acceleration operator+ (const Acceleration & rhs) const 
+   {
+      Acceleration aReturn(*this);
+      aReturn.add(rhs);
+      return aReturn;
+   }
 
 private:
    double ddx;     // horizontal acceleration
-   double ddy;     // vertical acceleration
+   double ddy;     // vertical acceleration 
 };
 
 #include <cassert>

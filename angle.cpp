@@ -66,7 +66,7 @@ double Angle::convertToRadians(double degrees) const
  *****************************************/
 void Angle::reverse()
 {
-   setRadians(radians + M_PI);
+   radians = normalize(radians + M_PI);
 }
 
 /******************************************

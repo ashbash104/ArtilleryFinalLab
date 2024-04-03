@@ -61,8 +61,6 @@ public:
    bool   isRight()          const { if (this->radians > 0 && this->radians < M_PI) return true; else return false;}
    bool   isLeft()           const { if (this->radians < 0 || this->radians > M_PI) return true; else return false;}
    
-
-
    // Setters
    void setDegrees(double degrees);
    void setRadians(double radians)    { this->radians = normalize(radians); }
@@ -75,6 +73,18 @@ public:
    void addRadians(double radians);                         
    Angle& add(double delta)           { this->radians = normalize(radians) + normalize(delta); return *this; }
 
+   Angle operator-() const
+   {
+      Angle aReturn(*this);
+      aReturn.reverse();
+      return aReturn;
+   }
+
+
+   Angle operator+(double degrees) const
+   {
+      return Angle(getDegrees() * degrees);
+   }
 
    // set based on the components
    //         dx
@@ -87,7 +97,7 @@ public:
    //     | /
    //     |/
    
-   Angle operator+(double degrees) const { return Angle(); }
+   //Angle operator+(double degrees) const { return Angle(); }
 
 private:
 
