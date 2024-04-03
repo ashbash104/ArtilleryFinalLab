@@ -65,6 +65,7 @@ void callBack(const Interface* pUI, void* p)
    {
       // this bullet is moving left at 1 pixel per frame
       double x = pSimulator->projectilePath[i].getPixelsX();
+      // I think that instead of changing it by 1, we change it to the next x position in flightPath. Idk how to access flightPath from here though.
       x -= 1.0;
       if (x < 0)
          x = pSimulator->ptUpperRight.getPixelsX();
