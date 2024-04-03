@@ -32,17 +32,7 @@ public:
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
 
       // Generate the ground and set the vertical position of the howitzer.
-      ground.reset(ptHowitzer);
-
-      // This is to make the bullet travel across the screen. Notice how there are 
-      // 20 pixels, each with a different age. This gives the appearance
-      // of a trail that fades off in the distance.
-      for (int i = 0; i < 20; i++)
-      {
-         projectilePath[i].setPixelsX((double)i * 2.0);
-         projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);
-      }
-  
+      ground.reset(ptHowitzer);  
    }
 
    Ground ground;                 // the ground

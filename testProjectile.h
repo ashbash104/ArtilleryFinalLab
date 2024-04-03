@@ -38,8 +38,8 @@ public:
       advance_nothing();
       advance_fall();
       advance_horizontal(); 
-      //advance_up(); 
-      //advance_diagonalUp();
+      advance_up(); 
+      advance_diagonalUp();
       advance_diagonalDown(); 
 
       report("Projectile");

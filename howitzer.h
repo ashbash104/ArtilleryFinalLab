@@ -38,24 +38,13 @@ class Howitzer
       Howitzer() : muzzleVelocity(DEFAULT_MUZZLE_VELOCITY), elevation(45.0) {}
 
       // draw
-      void draw(ogstream& gout, double flightTime) const
-      {
-         gout.drawHowitzer(position,
-            elevation.getRadians(),
-            flightTime);
-      }
+      void draw(ogstream& gout, double flightTime) const;
 
       // where is the howitzer at right now?
       Position & getPosition() { return position; }
 
       // generate a new position for the howitzer
-      void generatePosition(const Position& posUpperRight)
-      {
-         double xPixels = random(posUpperRight.getPixelsX() * 0.1,
-            posUpperRight.getPixelsX() * 0.9);
-         position.setPixelsX(xPixels);
-         position.setPixelsY(0);
-      }
+      void generatePosition(const Position& posUpperRight);
 
       // get the muzzle velocity
       double getMuzzleVelocity() const { return muzzleVelocity; }
@@ -64,10 +53,7 @@ class Howitzer
       void rotate(double radian) { elevation.add(radian); }
 
       // raise (or lower) the howitzer
-      void raise(double radian)
-      {
-         elevation.addRadians(elevation.isRight() ? -radian : radian); // radian = 0.1. elevation = -0.5. is elevation positive? no.
-      }
+      void raise(double radian) {elevation.addRadians(elevation.isRight() ? -radian : radian);}
 
       // get the elevation
       const Angle & getElevation() const { return elevation; }
