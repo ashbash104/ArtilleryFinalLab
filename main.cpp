@@ -31,7 +31,11 @@ void callBack(const Interface* pUI, void* p)
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulator* pSimulator = (Simulator*)p;
-   Ground ground;  
+   //Ground ground;  
+   //Position pos(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0); 
+   ogstream gout(pSimulator->ptUpperRight);
+   Velocity v;
+   Angle a;
 
    //
    // accept input
@@ -51,34 +55,39 @@ void callBack(const Interface* pUI, void* p)
 
    // fire that gun
    if (pUI->isSpace())
-      pSimulator->time = 0.0;
+   {
+      pSimulator->time = 0.1;
+      pSimulator->proj.fire(pSimulator->ptHowitzer, pSimulator->time, pSimulator->angle, v.getSpeed());
+      pSimulator->time += 0.1;
+   }
+   
 
    //
    // perform all the game logic
-   // advance()
+   pSimulator->proj.advance(pSimulator->time);
 
    // advance time by half a second.
-   pSimulator->time += 0.5;
+   pSimulator->time += 0.5; 
+
 
    // move the projectile across the screen
-   for (int i = 0; i < 20; i++)
-   {
-      // this bullet is moving left at 1 pixel per frame
-      double x = pSimulator->projectilePath[i].getPixelsX();
-      // I think that instead of changing it by 1, we change it to the next x position in flightPath. Idk how to access flightPath from here though.
-      x -= 1.0;
-      if (x < 0)
-         x = pSimulator->ptUpperRight.getPixelsX();
-      pSimulator->projectilePath[i].setPixelsX(x);
-   }
+
+
+   //for (int i = 0; i < 20; i++)
+   //{
+   //   // this bullet is moving left at 1 pixel per frame
+   //   double x = pSimulator->projectilePath[i].getPixelsX();
+   //   // I think that instead of changing it by 1, we change it to the next x position in flightPath. Idk how to access flightPath from here though.
+   //   x -= 1.0;
+   //   if (x < 0)
+   //      x = pSimulator->ptUpperRight.getPixelsX();
+   //   pSimulator->projectilePath[i].setPixelsX(x);
+   //}
 
    //
    // draw everything
    //
 
-   Position pos(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0);
-   ogstream gout(pos);
-   Projectile proj; 
    // Velocity v(proj.flightPath.front().v.getDX(), proj.flightPath.front().v.getDY());
 
    // draw the ground first
@@ -90,16 +99,19 @@ void callBack(const Interface* pUI, void* p)
    //gout.drawText()
 
    // draw the projectile
-   for (int i = 0; i < 20; i++)
-      gout.drawProjectile(pSimulator->projectilePath[i], 0.5 * (double)i); 
+   pSimulator->proj.draw(gout);
+  /* for (int i = 0; i < 20; i++)
+      gout.drawProjectile(pSimulator->projectilePath[i], 0.5 * (double)i); */
+
+
    // Create new position and gout to show on right?
-   Position posStats(23000.0, pSimulator->ptUpperRight.getPixelsY() + 22000.0);
+   Position posStats(26000.0, pSimulator->ptUpperRight.getPixelsY() + 23000.0);
    ogstream goutStats(posStats);
    // draw some text on the screen
    goutStats.setf(ios::fixed | ios::showpoint); 
    goutStats.precision(1); 
    goutStats << "Altitude: "
-      << pSimulator->ground.getElevationMeters(pos) 
+      << pSimulator->ground.getElevationMeters(pSimulator->ptUpperRight) 
       << endl;
    goutStats << "Speed: "
       //<< proj.getSpeed()

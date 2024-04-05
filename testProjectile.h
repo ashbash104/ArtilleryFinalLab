@@ -137,24 +137,50 @@ private:
     *********************************************/
    void fire_right()
    {
-      // setup
+      setupStandardFixture();
       Projectile p;
-      Angle a;
-      a.radians = 90;
-      Position po;
-      po.x = 111;
-      po.y = 222;
-      double muzzleVelocity = 100; 
-      double time = 1;
-      // exercise
-      p.fire(po, time, a.radians, muzzleVelocity);
-      // Projectile::PositionVelocityTime pvt1 = p.flightPath.begin();
-      // verify
-      assertEquals(p.flightPath.front().pos.x, 111.0);   
-      assertEquals(p.flightPath.front().pos.y, 222.0);   
-      assertEquals(p.flightPath.front().v.dx, 100.0); 
-      assertEquals(p.flightPath.front().v.dy, 0.0); 
-      assertEquals(p.flightPath.front().t, 1.0); 
+      Position pos;
+      pos.x = 111.0;
+      pos.y = 222.0;
+      double simulationTime(1.0);
+      Angle angle;
+      angle.radians = M_PI / 2.0;
+      double muzzleVelocity(100.0);
+      //exercise
+      p.fire(pos,simulationTime, angle, muzzleVelocity);
+      //verify
+      assertUnit(p.flightPath.size() == 1);
+      assertEquals(p.mass, 46.7);
+      assertEquals(p.radius, 0.077545);
+      assertUnit(!p.flightPath.empty());
+      if (!p.flightPath.empty())
+      {
+         assertEquals(p.flightPath.front().pos.x, 111.0);
+         assertEquals(p.flightPath.front().pos.y, 222.0);
+         assertEquals(p.flightPath.front().v.dx, 100.0);
+         assertEquals(p.flightPath.front().v.dy, 0.0);
+         assertEquals(p.flightPath.front().t, 1.0);
+      }
+
+      teardownStandardFixture();
+      // // setup
+      // Projectile p;
+      // Angle a;
+      // a.radians = 90;
+      // Position po;
+      // po.x = 111;
+      // po.y = 222;
+      // double muzzleVelocity = 100; 
+      // double time = 1;
+      // // exercise
+      // p.fire(po, time, a.radians, muzzleVelocity);
+      // // Projectile::PositionVelocityTime pvt1 = p.flightPath.begin();
+      // // verify
+      // assertEquals(p.flightPath.front().pos.x, 111.0);   
+      // assertEquals(p.flightPath.front().pos.y, 222.0);   
+      // assertEquals(p.flightPath.front().v.dx, 100.0); 
+      // assertEquals(p.flightPath.front().v.dy, 0.0); 
+      // assertEquals(p.flightPath.front().t, 1.0); 
    }
 
    /*********************************************

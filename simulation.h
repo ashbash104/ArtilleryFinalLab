@@ -14,6 +14,7 @@
 #include "uiDraw.h"     // for RANDOM and DRAW*
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POSITION
+#include "projectile.h"
 using namespace std;
 
 /*************************************************************************
@@ -32,13 +33,14 @@ public:
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
 
       // Generate the ground and set the vertical position of the howitzer.
-      ground.reset(ptHowitzer);  
+      ground.reset(ptHowitzer); 
    }
 
    Ground ground;                 // the ground
    Position  projectilePath[20];  // path of the projectile
    Position  ptHowitzer;          // location of the howitzer
    Position  ptUpperRight;        // size of the screen
+   Projectile proj;  
    double angle;                  // angle of the howitzer 
-   double time;                   // amount of time since the last firing
+   double time;                   // amount of time since the last firing   
 };

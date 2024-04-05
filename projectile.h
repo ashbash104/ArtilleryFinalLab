@@ -21,6 +21,18 @@
 // forward declaration for the unit test class
 class TestProjectile; 
 
+/*********************************************
+ * PVT
+ * A struct to represent our projectile's current
+ * position, velocity, and time
+ *********************************************/
+struct PVT
+{
+   Position pos;
+   Velocity vel;
+   double time;
+};
+
  /**********************************************************************
   * Projectile
   *    Everything we need to know about a projectile
@@ -42,8 +54,8 @@ public:
 
    void fire(const Position& posHowitzer,
       double simulationTime,
-      double angle,
-      double muzzleVelocity);
+      const Angle& elevation,
+      double muzzleVelocity); 
 
    void reset()
    {
@@ -66,7 +78,7 @@ public:
 
    Position getPosition() const { return flying() ? flightPath.back().pos : Position(); }
 
-   double getFlightTmie() const
+   double getFlightTime() const
    {
       return (flightPath.size() >= 2) ? flightPath.back().t - flightPath.front().t : 0.0;
    }
@@ -79,7 +91,7 @@ public:
 
    double getSpeed() const { return flying() ? flightPath.back().v.getSpeed() : 0.0; }
 
-   double currentTime() const { return flying() ? flightPath.back().t : 0.0; }
+   double currentTime() const { return flying() ? flightPath.back().t : 0.0; } 
 
    void setMass(double mass) { this->mass = mass;} 
 
@@ -96,5 +108,6 @@ private:
 
    double mass;
    double radius;
-   std::list<PositionVelocityTime> flightPath;
+   // Position launchPos; 
+   std::list<PositionVelocityTime> flightPath; 
 };
