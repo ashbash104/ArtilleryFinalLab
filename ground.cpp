@@ -64,8 +64,43 @@ Position Ground::getTarget() const
    return posTarget;
 }
 
+//bool Ground::hitTarget(Position target, Position projectile) const
+//{
+//   if (target.getMetersX() - 0.077545 <= projectile.getMetersX() && projectile.getMetersY() <= target.getMetersY() + 0.077545)
+//      return true;
+//   else
+//      return false;
+//}
+//
+//bool Ground::hitGround(Position target, Position projectile) const 
+//{
+//   if (!hitTarget(target, projectile) && ground[(int)projectile.getPixelsY()])
+//      return true;
+//   else
+//      return false;
+//}
+bool Ground::hitTarget(Position target, Position projectile) const
+{
+   // Assuming the target is hit if the projectile's position is within a small margin around the target
+   double margin = 0.077545; // Adjust as needed
+   if (projectile.getMetersX() >= target.getMetersX() - margin &&
+      projectile.getMetersX() <= target.getMetersX() + margin &&
+      projectile.getMetersY() <= target.getMetersY() + margin)
+   {
+      return true;
+   }
+   return false;
+}
 
-
+bool Ground::hitGround(Position target, Position projectile) const
+{
+   // Assuming the projectile hits the ground if it's not within the target's margin and its Y position is below the ground level
+   if (!hitTarget(target, projectile) && projectile.getMetersY() <= getElevationMeters(projectile))
+   {
+      return true;
+   }
+   return false;
+}
 
 /************************************************************************
  * GROUND :: RESET

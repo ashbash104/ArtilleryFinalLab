@@ -75,12 +75,12 @@ void callBack(const Interface* pUI, void* p)
    }
 
    // check if the projectile hits the target
-   if (pSimulator->hitTarget())
+   if (pSimulator->ground.hitTarget(pSimulator->ground.getTarget(), pSimulator->proj.getPosition()))
    {
       pSimulator->displayEndMessage("You hit the target!");
    }
    // check if the projectile hits the ground
-   else if (pSimulator->time > 0.1 && pSimulator->proj.getAltitude() <= 750.0)
+   else if (pSimulator->time > 0.1 && pSimulator->ground.hitGround(pSimulator->ground.getTarget(), pSimulator->proj.getPosition())/*hitGround()*//*proj.getAltitude() <= 750.0*/)
    {
       pSimulator->displayEndMessage("You missed!");
    }

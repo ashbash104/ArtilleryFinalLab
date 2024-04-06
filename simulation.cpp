@@ -44,6 +44,15 @@ bool Simulator::hitTarget() const
 
    return true;
 } 
+ 
+bool Simulator::hitGround() const
+{
+   // if we hit the ground
+   if (proj.getPositionY() == ground.getElevationMeters(proj.getPosition()))
+      return true;
+
+   return false;
+}
 
 void Simulator::displayEndMessage(string endMessage)
 {

@@ -14,6 +14,7 @@
 #include "velocity.h"
 #include "physics.h"
 #include "uiDraw.h"
+//#include "ground.h"
 
 #define DEFAULT_PROJECTILE_WEIGHT 46.7       // kg
 #define DEFAULT_PROJECTILE_RADIUS 0.077545   // m
@@ -110,6 +111,25 @@ public:
       }
    }
 
+   //bool hitTarget() const
+   //{
+   //   PositionVelocityTime pvt = flightPath.back();
+   //   // if we hit the ground
+   //   if (pvt.pos.getMetersY() == ground.getTarget().getMetersY() && pvt.pos.getMetersX() ==  ground.getTarget().getMetersY())
+   //      return false;
+
+   //   return true;
+   //}
+
+   //bool hitGround() const
+   //{
+   //   PositionVelocityTime pvt = flightPath.back();
+   //   // if we hit the ground
+   //   if (pvt.pos.getMetersY() == ground.getElevationMeters(pvt.pos))
+   //      return false;
+
+   //   return true;
+   //}
 
    double getSpeed() const { return flying() ? flightPath.back().v.getSpeed() : 0.0; }
 
@@ -119,7 +139,7 @@ public:
 
    void setRadius(double radius) { this->radius = radius; }
 
-   double getRadius() { return radius; }
+   double getRadius() const { return radius; }
    // bool hitTarget(); 
    // Position Projectile::getProjectilePosition();
 
@@ -135,6 +155,7 @@ private:
 
    double mass;
    double radius;
+   //Ground ground;
    // Position launchPos; 
    std::list<PositionVelocityTime> flightPath; 
 };

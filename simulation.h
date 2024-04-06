@@ -36,6 +36,7 @@ public:
       ground.reset(ptHowitzer); 
    }
    bool hitTarget() const; 
+   bool hitGround() const;
 
    void displayEndMessage(string endMessage);
   /* bool hitTarget()

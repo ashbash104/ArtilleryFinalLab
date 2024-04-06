@@ -41,6 +41,10 @@ public:
    // where the the target located?
    Position getTarget() const;
 
+   bool hitTarget(Position target, Position projectile) const;
+   
+   bool hitGround(Position target, Position projectile) const;
+
    Position getUpperRight() const { return posUpperRight; }
 
 private:
