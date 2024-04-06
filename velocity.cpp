@@ -71,7 +71,7 @@ double Velocity::getSpeed() const
 void Velocity::setA(double a, double magnitude)
 {
    angle = a;
-   std::cout << a; 
+   //std::cout << a; 
    dx = magnitude * sin(a); 
    dy = magnitude * cos(a); 
 }

@@ -83,9 +83,9 @@ bool Ground::hitTarget(Position target, Position projectile) const
 {
    // Assuming the target is hit if the projectile's position is within a small margin around the target
    double margin = 0.077545; // Adjust as needed
-   if (projectile.getMetersX() >= target.getMetersX() - margin &&
-      projectile.getMetersX() <= target.getMetersX() + margin &&
-      projectile.getMetersY() <= target.getMetersY() + margin)
+   if (projectile.getMetersX() >= target.getMetersX() - 1.0 &&
+      projectile.getMetersX() <= target.getMetersX() + 1.0 &&
+      projectile.getMetersY() <= target.getMetersY())
    {
       return true;
    }

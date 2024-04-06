@@ -190,24 +190,32 @@ private:
     *********************************************/
    void fire_left()
    {
-      // setup
-      Projectile p;
-      Angle a;
-      a.radians = -90;
-      Position po;
-      po.x = 111;
-      po.y = 222;
-      double muzzleVelocity = -100; 
-      double time = 1;
-      // exercise
-      p.fire(po, time, a.radians, muzzleVelocity);
-      // Projectile::PositionVelocityTime pvt1 = p.flightPath.begin();
-      // verify
-      assertEquals(p.flightPath.front().pos.x, 111.0);   
-      assertEquals(p.flightPath.front().pos.y, 222.0);   
-      assertEquals(p.flightPath.front().v.dx, -100.0); 
-      assertEquals(p.flightPath.front().v.dy, 0.0); 
-      assertEquals(p.flightPath.front().t, 1.0);    
+      setupStandardFixture(); 
+      Projectile p; 
+      Position pos; 
+      pos.x = 111.0; 
+      pos.y = 222.0; 
+      double simulationTime(1.0); 
+      Angle angle; 
+      angle.radians = M_PI / 2.0; 
+      double muzzleVelocity(-100.0); 
+      //exercise
+      p.fire(pos, simulationTime, angle.radians, muzzleVelocity); 
+      //verify
+      assertUnit(p.flightPath.size() == 1);
+      assertEquals(p.mass, 46.7); 
+      assertEquals(p.radius, 0.077545);
+      assertUnit(!p.flightPath.empty());
+      if (!p.flightPath.empty()) 
+      {
+         assertEquals(p.flightPath.front().pos.x, 111.0);
+         assertEquals(p.flightPath.front().pos.y, 222.0);
+         assertEquals(p.flightPath.front().v.dx, -100.0);
+         assertEquals(p.flightPath.front().v.dy, 0.0);
+         assertEquals(p.flightPath.front().t, 1.0);
+      }
+
+      teardownStandardFixture();   
    }
 
    /*********************************************
@@ -358,8 +366,8 @@ private:
       //}
 
       //teardownStandardFixture();
-
-       cout << "advance_up: " << endl;
+      cout << " ----------------------------------------" << endl;
+      cout << "advance_up: " << endl;
       // setup
       setupStandardFixture();
       Position pos;
@@ -374,27 +382,23 @@ private:
       pvt.t = 100.0;
       p.flightPath.push_back(pvt);
       // exercise
-      //cout << "before advance: " << endl;
-      //cout << p.flightPath.back().pos.x << endl;
-      //cout << p.flightPath.back().pos.y << endl;
-      //cout << p.flightPath.back().v.dx << endl;
-      //cout << p.flightPath.back().v.dy << endl;
-      //cout << p.flightPath.back().t << endl;
-      p.advance(101.0);
-      //cout << "after advance: " << endl;
-      //cout << p.flightPath.back().pos.x << endl;
-      //cout << p.flightPath.back().pos.y << endl;
-      //cout << p.flightPath.back().v.dx << endl;
-      //cout << p.flightPath.back().v.dy << endl;
-      //cout << p.flightPath.back().t << endl;
+      cout << "BEFORE ADVANCE: " << endl;
+      cout << "pos: " << p.flightPath.back().pos.x << ", " << p.flightPath.back().pos.y << endl;
+      cout << "vel: " << p.flightPath.back().v.dx << ", " << p.flightPath.back().v.dy << endl;
+      cout << "time: " << p.flightPath.back().t << endl;
+      cout << " ------------------" << endl;
 
-      //cout << " ------------------" << endl;
-      //cout << "should be: " << endl
-      //   << 100.00 << endl
-      //   << 294.9021 << endl
-      //   << 0.0 << endl
-      //   << 89.8042 << endl
-      //   << 101 << endl;
+      p.advance(101.0);
+      cout << "AFTER ADVANCE: " << endl;
+      cout << "pos: " << p.flightPath.back().pos.x << ", " << p.flightPath.back().pos.y << endl; 
+      cout << "vel: " << p.flightPath.back().v.dx << ", " << p.flightPath.back().v.dy << endl; 
+      cout << "time: " << p.flightPath.back().t << endl; 
+
+      cout << " ------------------" << endl;
+      cout << "SHOULD BE: " << endl
+         << "pos: 100.00, 294.9021" << endl
+         << "vel: 0.0, 89.8042" << endl
+         << "time: 101" << endl;
       // verify
       assertUnit(p.flightPath.size() == 4);
       assertEquals(p.mass, 46.7);
@@ -425,6 +429,8 @@ private:
    {
       // cout << "advance_diagonalUp: " << endl;
       // setup
+      cout << " ----------------------------------------" << endl;
+      cout << "advance_diagonalUp: " << endl;
       setupStandardFixture();
       Position pos;
       Projectile p;
@@ -437,8 +443,23 @@ private:
       pvt.v.dy = 40.0;
       pvt.t = 100.0;
       p.flightPath.push_back(pvt);
-      // exercise
+      // exercise      cout << "BEFORE ADVANCE: " << endl;
+      cout << "pos: " << p.flightPath.back().pos.x << ", " << p.flightPath.back().pos.y << endl;
+      cout << "vel: " << p.flightPath.back().v.dx << ", " << p.flightPath.back().v.dy << endl;
+      cout << "time: " << p.flightPath.back().t << endl;
+      cout << " ------------------" << endl;
+
       p.advance(101.0);
+      cout << "AFTER ADVANCE: " << endl;
+      cout << "pos: " << p.flightPath.back().pos.x << ", " << p.flightPath.back().pos.y << endl;
+      cout << "vel: " << p.flightPath.back().v.dx << ", " << p.flightPath.back().v.dy << endl;
+      cout << "time: " << p.flightPath.back().t << endl;
+
+      cout << " ------------------" << endl;
+      cout << "SHOULD BE: " << endl
+         << "pos: 149.9201, 230.1297" << endl
+         << "vel: 49.9201, 30.1397" << endl
+         << "time: 101.0 "<< endl;
       // verify
       assertUnit(p.flightPath.size() == 4);
       assertEquals(p.mass, 46.7);
@@ -447,7 +468,7 @@ private:
       if (!p.flightPath.empty())
       {
          assertEquals(p.flightPath.back().pos.x, 149.9201);
-         assertEquals(p.flightPath.back().pos.y, 230.1297);
+         assertEquals(p.flightPath.back().pos.y,230.1297);
          assertEquals(p.flightPath.back().v.dx, 49.9201);
          assertEquals(p.flightPath.back().v.dy, 30.1297);
          assertEquals(p.flightPath.back().t, 101.0);
@@ -466,6 +487,8 @@ private:
     *********************************************/
    void advance_diagonalDown()
    {  // setup
+      cout << " ----------------------------------------" << endl;
+      cout << "advance_diagonalDown: " << endl;
       setupStandardFixture();
       Position pos;
       Projectile p;
@@ -479,15 +502,30 @@ private:
       pvt.t = 100.0;
       p.flightPath.push_back(pvt);
       // exercise
+      cout << "BEFORE ADVANCE: " << endl;
+      cout << "pos: " << p.flightPath.back().pos.x << ", " << p.flightPath.back().pos.y << endl;
+      cout << "vel: " << p.flightPath.back().v.dx << ", " << p.flightPath.back().v.dy << endl;
+      cout << "time: " << p.flightPath.back().t << endl;
+      cout << " ------------------" << endl;
+
       p.advance(101.0);
-      // verify
+      cout << "AFTER ADVANCE: " << endl;
+      cout << "pos: " << p.flightPath.back().pos.x << ", " << p.flightPath.back().pos.y << endl;
+      cout << "vel: " << p.flightPath.back().v.dx << ", " << p.flightPath.back().v.dy << endl;
+      cout << "time: " << p.flightPath.back().t << endl;
+
+      cout << " ------------------" << endl;
+      cout << "SHOULD BE: " << endl
+         << "pos: 149.9601, 155.1287" << endl
+         << "vel:49.9201, 49.7425" << endl
+         << "time: 101.0" << endl;      // verify
       assertUnit(p.flightPath.size() == 4);
       assertEquals(p.mass, 46.7);
       assertEquals(p.radius, 0.077545);
       assertUnit(!p.flightPath.empty());
       if (!p.flightPath.empty())
       {
-         assertEquals(p.flightPath.back().pos.x, 149.9601); // 100 + 50*1 + .5(-0.0799)*1*1 --> posX + (vX * t) + (0.5 * (-0.0799) * (t * t))
+         assertEquals(p.flightPath.back().pos.x, 149.9201); // 100 + 50*1 + .5(-0.0799)*1*1 --> posX + (vX * t) + (0.5 * (-0.0799) * (t * t))
          assertEquals(p.flightPath.back().pos.y, 155.1287); // 200 +-40*1 + .5(-9.8064+0.0638)*1*1 --> posY + (vy * t) + (0.5 * () * (t * t))
          assertEquals(p.flightPath.back().v.dx, 49.9201);   // 50 + (-0.0799)*1 --> vX + (-0.0799) * t
          assertEquals(p.flightPath.back().v.dy, -49.7425);  //-40 + (-9.8064+0.0638)*1*1 --> vY + (-9.8064+0.0638) * (t * t)

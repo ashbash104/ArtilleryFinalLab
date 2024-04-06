@@ -1435,7 +1435,7 @@ private:
       // exercise
       drag = dragFromMach(speedMach);
       // verify
-      cout << "********" << drag << "************";
+      //cout << "********" << drag << "************";
       assertEquals(drag, 0.0543);    // get 0.2
    }  // teardown
 

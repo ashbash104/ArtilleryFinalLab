@@ -61,7 +61,7 @@ void callBack(const Interface* pUI, void* p)
    {
       pSimulator->time = 0.0;
       pSimulator->proj.fire(pSimulator->ptHowitzer, pSimulator->time, pSimulator->angle, DEFAULT_MUZZLE_VELOCITY);
-      cout << pSimulator->angle << endl;
+      //cout << pSimulator->angle << endl;
       pSimulator->time += 0.1;
    }
    
