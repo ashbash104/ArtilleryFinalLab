@@ -141,8 +141,6 @@ public:
 
    double getRadius() const { return radius; }
    // bool hitTarget(); 
-   // Position Projectile::getProjectilePosition();
-
 
 private:
    struct PositionVelocityTime

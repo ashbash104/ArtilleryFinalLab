@@ -75,7 +75,7 @@ void callBack(const Interface* pUI, void* p)
    }
 
    // check if the projectile hits the target
-   if (pSimulator->ground.hitTarget(pSimulator->ground.getTarget(), pSimulator->proj.getPosition()))
+   if (pSimulator->ground.hitTarget(pSimulator->ground.getTarget(),pSimulator->proj.getPosition())) 
    {
       pSimulator->displayEndMessage("You hit the target!");
    }

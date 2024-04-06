@@ -81,15 +81,16 @@ Position Ground::getTarget() const
 //}
 bool Ground::hitTarget(Position target, Position projectile) const
 {
+   
    // Assuming the target is hit if the projectile's position is within a small margin around the target
-   double margin = 0.077545; // Adjust as needed
-   if (projectile.getMetersX() >= target.getMetersX() - 1.0 &&
-      projectile.getMetersX() <= target.getMetersX() + 1.0 &&
-      projectile.getMetersY() <= target.getMetersY())
+   double margin = 0.077545; // Adjust as needed 
+   if (projectile.getMetersX() >= target.getMetersX() - 1.0 && 
+      projectile.getMetersX() <= target.getMetersX() + 1.0 && 
+      projectile.getMetersY() <= target.getMetersY()) 
    {
-      return true;
+      return true; 
    }
-   return false;
+   return false; 
 }
 
 bool Ground::hitGround(Position target, Position projectile) const

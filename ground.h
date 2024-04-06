@@ -41,7 +41,7 @@ public:
    // where the the target located?
    Position getTarget() const;
 
-   bool hitTarget(Position target, Position projectile) const;
+   bool hitTarget(const Position target, Position projectile) const; 
    
    bool hitGround(Position target, Position projectile) const;
 
