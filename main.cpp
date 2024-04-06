@@ -16,6 +16,7 @@
 #include "howitzer.h"
 #include "ground.h"
 #include "projectile.h"
+#include "Windows.h" // for sleep
 using namespace std;
 
 
@@ -39,6 +40,16 @@ void callBack(const Interface* pUI, void* p)
    //
    // accept input
    //
+   // Pause for user to see end message, then reset.
+
+   //bool needToSleep = false;
+   if (pSimulator->needToSleep)
+   {
+      Sleep(2000);
+      pSimulator->needToSleep = false;
+      pSimulator->proj.reset(/*pSimulator->ground.getUpperRight()*/);
+      pSimulator->ground.reset(pSimulator->ptHowitzer);
+   }
 
    // move a large amount
    if (pUI->isRight())
@@ -92,23 +103,62 @@ void callBack(const Interface* pUI, void* p)
    // for (int i = 0; i < 20; i++)
    //    gout.drawProjectile(pSimulator->projectilePath[i], 0.5 * (double)i);
 
-   if (pSimulator->hitTarget()) 
+   
+   if (pSimulator->hitTarget())
    {
-      gout << "You hit the target!" << endl;
-      pSimulator->proj.reset(); 
-      pSimulator->time = 0.0;
+      pSimulator->displayEndMessage("You hit the target!");
+   }
+   else if (pSimulator->time > 0.1 && pSimulator->proj.getAltitude() <= 750.0)
+   {
+      pSimulator->displayEndMessage("You missed!");
    }
 
-   else if (pSimulator->proj.getAltitude() <= 0.0) // change to ground level instead of 0.0
+
+   //// show message and reset if hits target
+   //if (pSimulator->hitTarget()) 
+   //{
+   //   // reset the projectile and time
+   //   Position endText; 
+   //   endText.setMetersX(20000); 
+   //   endText.setMetersY(16000); 
+   //   gout.setPosition(endText); 
+   //   gout << "You hit the target!"; 
+   //   needToSleep = true;
+
+   //   pSimulator->proj.reset(); 
+   //   pSimulator->time = 0.0; 
+   //}
+
+   //// show message and reset if hits ground
+   //else if (pSimulator->time > 0.1 && pSimulator->proj.getAltitude() <= 750.0) // change to ground level instead of 0.0
+   //{
+   //   // reset the projectile and time
+   //   Position endText; 
+   //   endText.setMetersX(20000);
+   //   endText.setMetersY(16000); 
+   //   gout.setPosition(endText);
+   //   gout << "You missed!";
+
+   //   pSimulator->proj.reset(); 
+   //   pSimulator->time = 0.0; 
+
+   //   needToSleep = true;
+
+
+   //   // reset the ground
+   //   //pSimulator->ground.reset(pSimulator->ptHowitzer); 
+   //}
+
+   // show message and reset if it leaves screen
+   else if (pSimulator->proj.getAltitude() <= 750.0) // change to ground level instead of 0.0
    {
       // reset the projectile and time
-      pSimulator->proj.reset(); 
-      pSimulator->time = 0.0; 
+      pSimulator->proj.reset();
+      pSimulator->time = 0.0;
 
       // reset the ground
       //pSimulator->ground.reset(pSimulator->ptHowitzer); 
    }
-
 
    // Create new position and gout to show on right?
    Position posStats(26000.0, pSimulator->ptUpperRight.getPixelsY() + 23000.0);

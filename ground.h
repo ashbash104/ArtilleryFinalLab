@@ -41,6 +41,8 @@ public:
    // where the the target located?
    Position getTarget() const;
 
+   Position getUpperRight() const { return posUpperRight; }
+
 private:
    double * ground;               // elevation of the ground, in pixels 
    int iTarget;                   // the location of the target, in pixels

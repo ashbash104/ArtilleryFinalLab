@@ -36,6 +36,8 @@ public:
       ground.reset(ptHowitzer); 
    }
    bool hitTarget() const; 
+
+   void displayEndMessage(string endMessage);
   /* bool hitTarget()
    {
       if (proj.getProjectilePosition() == ground.getTarget())
@@ -51,4 +53,5 @@ public:
    Projectile proj;  
    double angle;                  // angle of the howitzer 
    double time;                   // amount of time since the last firing   
+   bool needToSleep = false;
 };

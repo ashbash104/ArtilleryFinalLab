@@ -86,6 +86,8 @@ public:
 
    double getPositionX() const { return flying() ? flightPath.back().pos.getMetersX() : 0.0; }
 
+   double getPositionY() const { return flying() ? flightPath.back().pos.getMetersY() : 0.0; }
+
    double getFlightTime() const
    {
       return (flightPath.size() >= 2) ? flightPath.back().t - flightPath.front().t : 0.0;
