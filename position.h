@@ -70,7 +70,6 @@ public:
          (pos1.getMetersY() - pos2.getMetersY()) * (pos1.getMetersY() - pos2.getMetersY()));
    } 
 
-
 private:
    double x;                 // horizontal position
    double y;                 // vertical position

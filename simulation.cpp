@@ -52,7 +52,7 @@ void Simulator::displayEndMessage(string endMessage)
    // reset the projectile and time
    Position endText;
    endText.setMetersX(20000);
-   endText.setMetersY(16000);
+   endText.setMetersY(17500);
    gout.setPosition(endText);
    gout << endMessage;
 

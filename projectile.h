@@ -95,9 +95,21 @@ public:
 
    double getFlightDistance() const
    {
-      return (flightPath.size() >= 2) ?
-         abs(flightPath.front().pos.getMetersX() - flightPath.back().pos.getMetersX()) : 0.0;
+      if (flying())
+      {
+         return (flightPath.size() >= 2) ?
+            abs(flightPath.front().pos.getMetersX() - flightPath.back().pos.getMetersX()) : 0.0;
+      }
    }
+
+   inline double computeProjectileDistance(const Position& pos1, const Position& pos2)
+   {
+      if (flying())
+      {
+         return abs(pos1.getMetersX() - pos2.getMetersX());
+      }
+   }
+
 
    double getSpeed() const { return flying() ? flightPath.back().v.getSpeed() : 0.0; }
 

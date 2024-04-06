@@ -32,22 +32,15 @@ void callBack(const Interface* pUI, void* p)
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulator* pSimulator = (Simulator*)p;
-   //Ground ground;  
-   //Position pos(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0); 
-   ogstream gout(pSimulator->ptUpperRight);
-   //Velocity v;
-   //Angle a;
-   //
-   // accept input
-   //
-   // Pause for user to see end message, then reset.
 
-   //bool needToSleep = false;
+   ogstream gout(pSimulator->ptUpperRight);
+
+   // Pause for user to see end message, then reset.
    if (pSimulator->needToSleep)
    {
       Sleep(2000);
       pSimulator->needToSleep = false;
-      pSimulator->proj.reset(/*pSimulator->ground.getUpperRight()*/);
+      pSimulator->proj.reset();
       pSimulator->ground.reset(pSimulator->ptHowitzer);
    }
 
@@ -63,7 +56,7 @@ void callBack(const Interface* pUI, void* p)
    if (pUI->isDown())
       pSimulator->angle += (pSimulator->angle >= 0 ? 0.003 : -0.003);
 
-   // fire that gun
+   // fire the gun
    if (pUI->isSpace())
    {
       pSimulator->time = 0.0;
@@ -72,9 +65,7 @@ void callBack(const Interface* pUI, void* p)
       pSimulator->time += 0.1;
    }
    
-
-   //
-   // perform all the game logic
+   ////////// perform all the game logic //////////
    pSimulator->proj.advance(pSimulator->time);
 
    // advance time by half a second.
@@ -83,35 +74,32 @@ void callBack(const Interface* pUI, void* p)
       pSimulator->time += TIME_INCREMENT; 
    }
 
+   // check if the projectile hits the target
+   if (pSimulator->hitTarget())
+   {
+      pSimulator->displayEndMessage("You hit the target!");
+   }
+   // check if the projectile hits the ground
+   else if (pSimulator->time > 0.1 && pSimulator->proj.getAltitude() <= 750.0)
+   {
+      pSimulator->displayEndMessage("You missed!");
+   }
+   // check if the projectile leaves the screen
+   else if (pSimulator->time > 0.1 && (pSimulator->proj.getAltitude() >= 26000 || pSimulator->proj.getPositionX() >= 35000 || pSimulator->proj.getPositionX() <= 0.0)) // change to screen size instead of 750.0
+   {
+      pSimulator->displayEndMessage("You missed!");
+   }
 
-   //
-   // draw everything
-   //
-
-   // Velocity v(proj.flightPath.front().v.getDX(), proj.flightPath.front().v.getDY());
-
+   ////////// draw everything //////////
+   
    // draw the ground first
    pSimulator->ground.draw(gout);
 
    // draw the howitzer
    gout.drawHowitzer(pSimulator->ptHowitzer, pSimulator->angle, pSimulator->time);
-   // Draw the text?
-   //gout.drawText()
 
    // draw the projectile
    pSimulator->proj.draw(gout);
-   // for (int i = 0; i < 20; i++)
-   //    gout.drawProjectile(pSimulator->projectilePath[i], 0.5 * (double)i);
-
-   
-   if (pSimulator->hitTarget())
-   {
-      pSimulator->displayEndMessage("You hit the target!");
-   }
-   else if (pSimulator->time > 0.1 && pSimulator->proj.getAltitude() <= 750.0)
-   {
-      pSimulator->displayEndMessage("You missed!");
-   }
 
 
    //// show message and reset if hits target
@@ -149,18 +137,7 @@ void callBack(const Interface* pUI, void* p)
    //   //pSimulator->ground.reset(pSimulator->ptHowitzer); 
    //}
 
-   // show message and reset if it leaves screen
-   else if (pSimulator->proj.getAltitude() <= 750.0) // change to ground level instead of 0.0
-   {
-      // reset the projectile and time
-      pSimulator->proj.reset();
-      pSimulator->time = 0.0;
-
-      // reset the ground
-      //pSimulator->ground.reset(pSimulator->ptHowitzer); 
-   }
-
-   // Create new position and gout to show on right?
+    // Create new position and gout to show on right?
    Position posStats(26000.0, pSimulator->ptUpperRight.getPixelsY() + 23000.0);
    ogstream goutStats(posStats);
    // draw some text on the screen
@@ -172,8 +149,13 @@ void callBack(const Interface* pUI, void* p)
    goutStats << "Speed: "
       << pSimulator->proj.getSpeed() 
       << endl; 
+   //goutStats << "Total Distance: "
+   //   // This uses the pathagorean theorum to find the hypotonuse between the howitzer and projectile
+   //   << pSimulator->ptUpperRight.computeDistance(pSimulator->proj.getPosition(), pSimulator->ptHowitzer) // doesn't start at 0 because I can't check if it's flying in position
+   //   << endl;
    goutStats << "Distance: "
-      << pSimulator->proj.getFlightDistance()
+      // This finds the absolute value horizontal distance between the howitzer and the projectile
+      << pSimulator->proj.computeProjectileDistance(pSimulator->proj.getPosition(), pSimulator->ptHowitzer)
       << endl;
    goutStats << "Hang Time: "
       << pSimulator->time << "s\n";
