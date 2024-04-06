@@ -36,7 +36,6 @@ void callBack(const Interface* pUI, void* p)
    ogstream gout(pSimulator->ptUpperRight);
    //Velocity v;
    //Angle a;
-
    //
    // accept input
    //
@@ -56,7 +55,7 @@ void callBack(const Interface* pUI, void* p)
    // fire that gun
    if (pUI->isSpace())
    {
-      pSimulator->time = 0.1;
+      pSimulator->time = 0.0;
       pSimulator->proj.fire(pSimulator->ptHowitzer, pSimulator->time, pSimulator->angle, DEFAULT_MUZZLE_VELOCITY);
       cout << pSimulator->angle << endl;
       pSimulator->time += 0.1;
@@ -68,7 +67,10 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->proj.advance(pSimulator->time);
 
    // advance time by half a second.
-   pSimulator->time += TIME_INCREMENT;
+   if (pSimulator->proj.flying())
+   {
+      pSimulator->time += TIME_INCREMENT; 
+   }
 
 
    //
@@ -87,8 +89,25 @@ void callBack(const Interface* pUI, void* p)
 
    // draw the projectile
    pSimulator->proj.draw(gout);
-  /* for (int i = 0; i < 20; i++)
-      gout.drawProjectile(pSimulator->projectilePath[i], 0.5 * (double)i); */
+   // for (int i = 0; i < 20; i++)
+   //    gout.drawProjectile(pSimulator->projectilePath[i], 0.5 * (double)i);
+
+   if (pSimulator->hitTarget()) 
+   {
+      gout << "You hit the target!" << endl;
+      pSimulator->proj.reset(); 
+      pSimulator->time = 0.0;
+   }
+
+   else if (pSimulator->proj.getAltitude() <= 0.0) // change to ground level instead of 0.0
+   {
+      // reset the projectile and time
+      pSimulator->proj.reset(); 
+      pSimulator->time = 0.0; 
+
+      // reset the ground
+      //pSimulator->ground.reset(pSimulator->ptHowitzer); 
+   }
 
 
    // Create new position and gout to show on right?
@@ -98,16 +117,47 @@ void callBack(const Interface* pUI, void* p)
    goutStats.setf(ios::fixed | ios::showpoint); 
    goutStats.precision(1); 
    goutStats << "Altitude: "
-      << pSimulator->ground.getElevationMeters(pSimulator->ptUpperRight) 
+      << pSimulator->proj.getAltitude()
       << endl;
    goutStats << "Speed: "
-      //<< proj.getSpeed()
+      << pSimulator->proj.getSpeed() 
       << endl; 
    goutStats << "Distance: "
-      // << 
+      << pSimulator->proj.getFlightDistance()
       << endl;
    goutStats << "Hang Time: "
       << pSimulator->time << "s\n";
+
+
+   // bool hitTarget() 
+   // {
+   //    if (pSimulator->proj.getProjectilePosition() == pSimulator->ground.getTarget())
+   //    {
+   //       return true;
+   //    }
+   // }
+
+   // change status and end when hits ground
+   // if (pSimulator->proj.hitTarget(pSimulator->proj.getPosition(), pSimulator->proj.getRadius()))
+   // {
+   //    gout << "Houston, we have a problem!" << endl;
+   //    lander.crash();
+   //    needToSleep = true;
+   // }
+
+   // // change status and end when lands
+   // if (ground.onPlatform(lander.getPosition(), LANDER_WIDTH))
+   // {
+   //    gout << "The Eagle has landed!" << endl;
+   //    lander.land();
+   //    needToSleep = true;
+   // }
+   // if (pSimulator->proj.getAltitude() == 0.0) //pSimulator->ground[pSimulator->proj.getPositionX()])
+   // {
+   //    //!flying();
+   //    //pSimulator->proj.flying() = false;
+   //    pSimulator->proj.reset();
+   // }
 }
 
 double Position::metersFromPixels = 40.0;

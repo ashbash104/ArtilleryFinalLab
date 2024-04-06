@@ -35,6 +35,14 @@ public:
       // Generate the ground and set the vertical position of the howitzer.
       ground.reset(ptHowitzer); 
    }
+   bool hitTarget() const; 
+  /* bool hitTarget()
+   {
+      if (proj.getProjectilePosition() == ground.getTarget())
+         return true;
+      else
+         return false;
+   }*/
 
    Ground ground;                 // the ground
    Position  projectilePath[20];  // path of the projectile

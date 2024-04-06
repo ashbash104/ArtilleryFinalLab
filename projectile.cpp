@@ -110,15 +110,15 @@
     double windResistance = forceFromDrag(density, dragCoefficient, radius, speed);
     double accelerationDrag = accelerationFromForce(windResistance, mass); 
     double velocityWind = (velocityFromAcceleration(accelerationDrag, TIME_INCREMENT));
-    Acceleration aWind(pvt.v.getAngle(), accelerationDrag); 
-    pvt.v.addDY(velocityWind); 
+    Acceleration aWind(-pvt.v.getAngle(), accelerationDrag); 
+    pvt.v.addDY(-velocityWind); 
 
     //double magnitudeGravity = gravityFromAltitude(altitude);
     
     //Acceleration aGravity(angleGravity, magnitudeGravity);
     double accelerationGravity = gravityFromAltitude(altitude); 
     double velocityGravity = (velocityFromAcceleration(accelerationGravity, TIME_INCREMENT));
-    pvt.v.addDY(velocityGravity);   // Remove -?
+    pvt.v.addDY(-velocityGravity);
     double angle = pvt.v.getAngle();
 
     cout << "Speed: " << speed << " Alt: " << altitude << " Interval: " << interval << " Dens: " << density << " Sound: " << speedSound;
@@ -131,7 +131,7 @@
     // Print X & Y, Figure out why speed is increasing. 
     cout << "X: " << pvt.pos.getMetersX() << " Y: " << pvt.pos.getMetersY() << endl;
     // update time
-    pvt.t += TIME_INCREMENT; ////////////////////////////////////////////////////////////////////////////////// = not +=
+    pvt.t += TIME_INCREMENT;
 
     // remove the oldest pvt when we reach 20
     if (flightPath.size() > 19)
@@ -142,3 +142,19 @@
 
 
  }
+
+// Position Projectile::getProjectilePosition()
+// {
+//    PositionVelocityTime pvt = flightPath.back();
+//    return pvt.pos;
+// }
+
+ //bool Projectile::hitTarget() 
+ //{
+ //  PositionVelocityTime pvt = flightPath.back();
+ //  
+ //   if(pvt.pos == ground.getTarget())
+ //   {
+ //     return !flying();
+ //   }
+ //}

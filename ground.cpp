@@ -65,6 +65,8 @@ Position Ground::getTarget() const
 }
 
 
+
+
 /************************************************************************
  * GROUND :: RESET
  * Note that the howitzer's Y position will be updated when the ground is 

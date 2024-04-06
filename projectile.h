@@ -71,7 +71,11 @@ public:
    void draw(ogstream& gout) const
    {
       for (auto it = flightPath.cbegin(); it != flightPath.cend(); ++it)
-         gout.drawProjectile(it->pos, currentTime() - it->t);
+      {
+
+         gout.drawProjectile(it->pos, currentTime() - it->t); 
+         //if (it->pos == )
+      }
    }
 
    bool flying() const { return !flightPath.empty(); }
@@ -79,6 +83,8 @@ public:
    double getAltitude() const { return flying() ? flightPath.back().pos.getMetersY() : 0; }
 
    Position getPosition() const { return flying() ? flightPath.back().pos : Position(); }
+
+   double getPositionX() const { return flying() ? flightPath.back().pos.getMetersX() : 0.0; }
 
    double getFlightTime() const
    {
@@ -97,7 +103,12 @@ public:
 
    void setMass(double mass) { this->mass = mass;} 
 
-   void setRadius(double radus) { this->radius = radius; }
+   void setRadius(double radius) { this->radius = radius; }
+
+   double getRadius() { return radius; }
+   // bool hitTarget(); 
+   // Position Projectile::getProjectilePosition();
+
 
 private:
    struct PositionVelocityTime
