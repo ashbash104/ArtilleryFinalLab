@@ -143,23 +143,35 @@ void callBack(const Interface* pUI, void* p)
    // draw some text on the screen
    goutStats.setf(ios::fixed | ios::showpoint); 
    goutStats.precision(1); 
-   goutStats << "Altitude: "
-      << pSimulator->proj.getAltitude()
-      << endl;
-   goutStats << "Speed: "
-      << pSimulator->proj.getSpeed() 
-      << endl; 
-   //goutStats << "Total Distance: "
-   //   // This uses the pathagorean theorum to find the hypotonuse between the howitzer and projectile
-   //   << pSimulator->ptUpperRight.computeDistance(pSimulator->proj.getPosition(), pSimulator->ptHowitzer) // doesn't start at 0 because I can't check if it's flying in position
-   //   << endl;
-   goutStats << "Distance: "
-      // This finds the absolute value horizontal distance between the howitzer and the projectile
-      << pSimulator->proj.computeProjectileDistance(pSimulator->proj.getPosition(), pSimulator->ptHowitzer)
-      << endl;
-   goutStats << "Hang Time: "
-      << pSimulator->time << "s\n";
-
+   if (pSimulator->proj.flying())
+   {
+      goutStats << "Altitude: "
+         << pSimulator->proj.getAltitude()
+         << "m"
+         << endl;
+      goutStats << "Speed: "
+         << pSimulator->proj.getSpeed()
+         << "m/s"
+         << endl;
+      //goutStats << "Total Distance: "
+      //   // This uses the pathagorean theorum to find the hypotonuse between the howitzer and projectile
+      //   << pSimulator->ptUpperRight.computeDistance(pSimulator->proj.getPosition(), pSimulator->ptHowitzer) // doesn't start at 0 because I can't check if it's flying in position
+      //   << endl;
+      goutStats << "Distance: "
+         // This finds the absolute value horizontal distance between the howitzer and the projectile
+         << pSimulator->proj.computeProjectileDistance(pSimulator->proj.getPosition(), pSimulator->ptHowitzer)
+         << "m"
+         << endl;
+      goutStats << "Hang Time: "
+         << pSimulator->time << "s\n";
+   }
+   else
+   {
+      goutStats << "Angle: "
+         << pSimulator->angle
+         << "degree"
+         << endl;
+   }
 
    // bool hitTarget() 
    // {
