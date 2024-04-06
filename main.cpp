@@ -138,7 +138,7 @@ void callBack(const Interface* pUI, void* p)
    //}
 
     // Create new position and gout to show on right?
-   Position posStats(26000.0, pSimulator->ptUpperRight.getPixelsY() + 23000.0);
+   Position posStats(28500.0, pSimulator->ptUpperRight.getPixelsY() + 22500.0);
    ogstream goutStats(posStats);
    // draw some text on the screen
    goutStats.setf(ios::fixed | ios::showpoint); 
