@@ -34,8 +34,8 @@ void callBack(const Interface* pUI, void* p)
    //Ground ground;  
    //Position pos(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0); 
    ogstream gout(pSimulator->ptUpperRight);
-   Velocity v;
-   Angle a;
+   //Velocity v;
+   //Angle a;
 
    //
    // accept input
@@ -57,7 +57,8 @@ void callBack(const Interface* pUI, void* p)
    if (pUI->isSpace())
    {
       pSimulator->time = 0.1;
-      pSimulator->proj.fire(pSimulator->ptHowitzer, pSimulator->time, pSimulator->angle, v.getSpeed());
+      pSimulator->proj.fire(pSimulator->ptHowitzer, pSimulator->time, pSimulator->angle, DEFAULT_MUZZLE_VELOCITY);
+      cout << pSimulator->angle << endl;
       pSimulator->time += 0.1;
    }
    
@@ -67,22 +68,8 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->proj.advance(pSimulator->time);
 
    // advance time by half a second.
-   pSimulator->time += 0.5; 
+   pSimulator->time += TIME_INCREMENT;
 
-
-   // move the projectile across the screen
-
-
-   //for (int i = 0; i < 20; i++)
-   //{
-   //   // this bullet is moving left at 1 pixel per frame
-   //   double x = pSimulator->projectilePath[i].getPixelsX();
-   //   // I think that instead of changing it by 1, we change it to the next x position in flightPath. Idk how to access flightPath from here though.
-   //   x -= 1.0;
-   //   if (x < 0)
-   //      x = pSimulator->ptUpperRight.getPixelsX();
-   //   pSimulator->projectilePath[i].setPixelsX(x);
-   //}
 
    //
    // draw everything

@@ -21,7 +21,8 @@
  ********************************************************************/
  void Projectile::fire(const Position& posHowitzer,
     double simulationTime,
-    const Angle& elevation,
+    double angle,
+    //const Angle& elevation,
     double muzzleVelocity) 
  {
    reset();
@@ -29,8 +30,10 @@
    PositionVelocityTime pvt;
    pvt.pos = posHowitzer;
    pvt.t = simulationTime;
-   pvt.v.set(elevation, muzzleVelocity);
+   pvt.v.setA(angle, muzzleVelocity);
    flightPath.push_back(pvt);
+   cout << angle;
+
  }
 //  void Projectile::fire(const Position& posHowitzer,
 //   double simulationTime, Angle& elevation, double muzzleVelocity)
@@ -85,7 +88,7 @@
  **************************************************/
  void Projectile::advance(double simulationTime)
  {
-    cout << flightPath.size() << endl;
+   // cout << flightPath.size() << endl;
     if (!flying())
        return; 
 
@@ -96,7 +99,7 @@
     double speed = pvt.v.getSpeed();
     double altitude = pvt.pos.getMetersY();
     double interval = simulationTime - currentTime();    
-    cout << simulationTime << "," << currentTime() << endl;
+    //cout << simulationTime << "," << currentTime() << endl;
    
     assert(interval > 0.0);
 
@@ -106,25 +109,29 @@
     double dragCoefficient = dragFromMach(mach);
     double windResistance = forceFromDrag(density, dragCoefficient, radius, speed);
     double accelerationDrag = accelerationFromForce(windResistance, mass); 
-    double velocityWind = (velocityFromAcceleration(accelerationDrag, simulationTime)); 
-    Acceleration aWind(-pvt.v.getAngle(), accelerationDrag); 
-    pvt.v.addDY(-velocityWind); 
+    double velocityWind = (velocityFromAcceleration(accelerationDrag, TIME_INCREMENT));
+    Acceleration aWind(pvt.v.getAngle(), accelerationDrag); 
+    pvt.v.addDY(velocityWind); 
 
-    double magnitudeGravity = gravityFromAltitude(altitude);
+    //double magnitudeGravity = gravityFromAltitude(altitude);
     
     //Acceleration aGravity(angleGravity, magnitudeGravity);
     double accelerationGravity = gravityFromAltitude(altitude); 
-    double velocityGravity = (velocityFromAcceleration(accelerationGravity, simulationTime));
-    pvt.v.addDY(-velocityGravity);  
+    double velocityGravity = (velocityFromAcceleration(accelerationGravity, TIME_INCREMENT));
+    pvt.v.addDY(velocityGravity);   // Remove -?
+    double angle = pvt.v.getAngle();
 
-     
+    cout << "Speed: " << speed << " Alt: " << altitude << " Interval: " << interval << " Dens: " << density << " Sound: " << speedSound;
+    cout << " Mach: " << mach << " DC: " << dragCoefficient << " Wind: " << windResistance << " ADrag: " << accelerationDrag;
+    cout << " VWind: " << velocityWind << " aGrav: " << accelerationGravity << " vGrav: " << velocityGravity << " Angle: " << angle << endl;
     // compute total acceleration
     //Acceleration aTotal = aGravity + aWind; 
-    pvt.pos.addMetersX(velocityFromAcceleration(pvt.v.getDX(), simulationTime));
-    pvt.pos.addMetersY(velocityFromAcceleration(pvt.v.getDY(), simulationTime));
-
+    pvt.pos.addMetersX(velocityFromAcceleration(pvt.v.getDX(), TIME_INCREMENT));
+    pvt.pos.addMetersY(velocityFromAcceleration(pvt.v.getDY(), TIME_INCREMENT));
+    // Print X & Y, Figure out why speed is increasing. 
+    cout << "X: " << pvt.pos.getMetersX() << " Y: " << pvt.pos.getMetersY() << endl;
     // update time
-    pvt.t = simulationTime; ////////////////////////////////////////////////////////////////////////////////// = not +=
+    pvt.t += TIME_INCREMENT; ////////////////////////////////////////////////////////////////////////////////// = not +=
 
     // remove the oldest pvt when we reach 20
     if (flightPath.size() > 19)

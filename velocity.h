@@ -8,7 +8,7 @@
  ************************************************************************/
 
 #pragma once
-
+#include "angle.h"
 // for unit tests
 class TestPosition;
 class TestVelocity;
@@ -17,7 +17,7 @@ class TestProjectile;
 
 // for add()
 class Acceleration;
-class Angle;
+//class Angle;
 
  /*********************************************
   * Velocity
@@ -41,12 +41,13 @@ public:
    virtual double getDX()       const { return dx; }
    virtual double getDY()       const { return dy; }
    virtual double getSpeed()    const;
-   virtual Angle  getAngle()    const;
+   virtual double  getAngle()    const;
    
    // setters
    virtual void setDX(double dx) { this->dx = dx; }
    virtual void setDY(double dy) { this->dy = dy; }
    virtual void set(const Angle & angle, double magnitude);
+   virtual void setA(double angle, double magnitude);
    virtual void addDX(double dx) { this->dx += dx; }
    virtual void addDY(double dy) { this->dy += dy; }
    virtual void addAcceleration(const Acceleration & acceleration, double time);
@@ -56,6 +57,7 @@ public:
 private:
    double dx;           // horizontal velocity
    double dy;           // vertical velocity
+   Angle angle;  
 };
 
 #include <cassert>
@@ -72,7 +74,7 @@ public:
    double    getDX()    const { assert(false); return 0.0;     }
    double    getDY()    const { assert(false); return 0.0;     }
    double    getSpeed() const { assert(false); return 0.0;     }
-   Angle     getAngle() const;
+   double   getAngle() const;
 
    // setters
    void setDX(double dx)                          { assert(false); }

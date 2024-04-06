@@ -147,7 +147,7 @@ private:
       angle.radians = M_PI / 2.0;
       double muzzleVelocity(100.0);
       //exercise
-      p.fire(pos,simulationTime, angle, muzzleVelocity);
+      p.fire(pos,simulationTime, angle.radians, muzzleVelocity);
       //verify
       assertUnit(p.flightPath.size() == 1);
       assertEquals(p.mass, 46.7);

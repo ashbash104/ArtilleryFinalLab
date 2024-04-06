@@ -68,12 +68,22 @@ double Velocity::getSpeed() const
  * dy = speed cos a
  * dx = speed sin a
  *********************************************/
-void Velocity::set(const Angle & angle, double magnitude)
+void Velocity::setA(double a, double magnitude)
 {
-   dx = magnitude * sin(angle.getRadians()); 
-   dy = magnitude * cos(angle.getRadians()); 
+   angle = a;
+   std::cout << a; 
+   dx = magnitude * sin(a); 
+   dy = magnitude * cos(a); 
 }
 
+
+void Velocity::set(const Angle & angle, double magnitude)
+{
+   //angle = a;
+   //std::cout << a;
+   dx = magnitude * sin(angle.getRadians());
+   dy = magnitude * cos(angle.getRadians()); 
+}
 
 /************************************************
  * Velocity :: GET ANGLE
@@ -88,13 +98,13 @@ void Velocity::set(const Angle & angle, double magnitude)
  *     |  /
  *     | /
  ************************************************/
-Angle Velocity::getAngle() const
+double Velocity::getAngle() const
 {
-   return Angle();
+   return angle.getRadians();
 }
-Angle VelocityDummy::getAngle() const
+double VelocityDummy::getAngle() const
 {
    assert(false); 
-   return Angle();
+   return 0.0;
 }
 

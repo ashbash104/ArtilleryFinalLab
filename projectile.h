@@ -17,6 +17,7 @@
 
 #define DEFAULT_PROJECTILE_WEIGHT 46.7       // kg
 #define DEFAULT_PROJECTILE_RADIUS 0.077545   // m
+#define TIME_INCREMENT 0.5
 
 // forward declaration for the unit test class
 class TestProjectile; 
@@ -54,7 +55,8 @@ public:
 
    void fire(const Position& posHowitzer,
       double simulationTime,
-      const Angle& elevation,
+      double angle,
+      //const Angle& elevation,
       double muzzleVelocity); 
 
    void reset()
